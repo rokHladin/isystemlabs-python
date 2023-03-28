@@ -1,10 +1,14 @@
 import json
 import locale
 import os
+import time
 
 locale.setlocale(locale.LC_ALL, "sl_SI.UTF-8")
 
-file_path = "data_task2_1.json"
+file_path = "data_task2_2.json"
+
+if not os.path.exists(file_path):
+        raise FileNotFoundError(f"{file_path} does not exist!")
 try:
     with open(file_path, "r") as car_data_file:
         car_data = json.load(car_data_file)
@@ -33,7 +37,5 @@ try:
         except KeyError as e:
             print(f"Record doesn't contain {e} attribute.")
     file.close()
-except FileNotFoundError:
-    raise FileNotFoundError(f"{file_path} does not exist!")
 except json.decoder.JSONDecodeError:
     raise ValueError(f"{file_path} has corrupt JSON structure!")
