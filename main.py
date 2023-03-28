@@ -1,9 +1,10 @@
 import json
 import locale
 import os
-import time
+import sys
 
 locale.setlocale(locale.LC_ALL, "sl_SI.UTF-8")
+input_file_path = ""
 
 
 def write_rich_honda_owners(file_path):
@@ -44,9 +45,14 @@ def write_rich_honda_owners(file_path):
 
 
 is_run_again = True
+if len(sys.argv) == 2:
+    input_file_path = sys.argv[1]
+
+
 while is_run_again:
     try:
-        input_file_path = input("Path to JSON input file: ")
+        if input_file_path == "":
+            input_file_path = input("Path to JSON input file: ")
         write_rich_honda_owners(input_file_path)
         print(f'Output: {os.path.abspath("rich_honda_owners.txt")}')
         is_run_again = False
@@ -54,9 +60,11 @@ while is_run_again:
         print(
             "ERROR: File provided as script parameter does not exist. Provide another file!"
         )
+        input_file_path = ""
     except ValueError as e:
-        print(
-            f"ERROR: {e}. Fix file before running script again!"
-        )
+        print(f"ERROR: {e}. Fix file before running script again!")
+        input_file_path = ""
+
     except Exception as e:
         print(f"ERROR: {e}")
+        input_file_path = ""
